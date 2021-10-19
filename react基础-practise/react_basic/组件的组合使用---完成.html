@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>组件的组合使用---动态显示初始化数据</title>
+  </head>
+  <body>
+    <div id="example"></div>
+
+    <!-- 引入react核心库  引入react-dom库  引入babel 引入传参限制库 -->
+    <script type="text/javascript" src="./js/react.development.js"></script>
+    <script type="text/javascript" src="./js/react-dom.development.js"></script>
+    <script type="text/javascript" src="./js/babel.min.js"></script>
+    <script type="text/javascript" src="./js/prop-types.js"></script>
+
+    <script type="text/babel">
+      //App 组件
+      class App extends React.Component {
+        state = {
+          todoArr: ["吃饭", "睡觉", "学习"],
+        };
+
+        addTodo = (data) => {
+          // alert(data)
+          //获取原状态todo数组
+          let { todoArr } = this.state;
+          //向todo数组中追加一条数据
+          todoArr.unshift(data);
+          //更新状态
+          this.setState({ todoArr: todoArr });
+        };
+
+        render() {
+          //   let { todoArr } = this.state;
+          let { todoArr } = this.state;
+          return (
+            <div>
+              <h1>Simple TODO List</h1>
+              <Add addTodo={this.addTodo} count={todoArr.length} />
+              <List todoArr={todoArr} />
+            </div>
+          );
+        }
+      }
+
+      //Add 组件
+      class Add extends React.Component {
+        //
+        add = () => {
+          //获取用户数据
+          let useInput = this.input.value;
+          //校验数据
+          if (useInput.trim() === "") return;
+          //将用户的输入添加到状态里
+          this.props.addTodo(useInput);
+          //清空输入框
+          this.input.value = "";
+        };
+
+        render() {
+          let { count } = this.props;
+          return (
+            <div>
+              <input
+                type="text"
+                ref={(input) => {
+                  this.input = input;
+                }}
+              />
+              <button onClick={this.add}>ADD #{count}</button>
+            </div>
+          );
+        }
+      }
+
+      //List 组件
+      class List extends React.Component {
+        render() {
+          let { todoArr } = this.props;
+          // console.log(this.props.name)
+          console.log(todoArr);
+
+          return (
+            <ul>
+              {todoArr.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          );
+        }
+      }
+
+      ReactDOM.render(<App />, document.getElementById("example"));
+    </script>
+  </body>
+</html>

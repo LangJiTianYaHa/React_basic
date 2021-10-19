@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>组件的组合使用---实现静态页面</title>
+  </head>
+  <body>
+
+    <div id="example"></div>
+
+
+    <!-- 引入react核心库  引入react-dom库  引入babel 引入传参限制库 -->
+    <script type="text/javascript" src="./js/react.development.js"></script>
+    <script type="text/javascript" src="./js/react-dom.development.js"></script>
+    <script type="text/javascript" src="./js/babel.min.js"></script>
+    <script type="text/javascript" src="./js/prop-types.js"></script>
+
+    <script type="text/babel">
+      class App extends React.Component {
+        render() {
+          return (
+            <div>
+              <h1>Simple TODO List</h1>
+              <Add/>
+              <List/>
+            </div>
+          );
+        }
+      }
+
+      class Add extends React.Component {
+        render() {
+          return (
+            <div>
+              <input type="text"/ >
+              <button>ADD #10</button>
+            </div>
+          );
+        }
+      }
+
+      class List extends React.Component {
+        render() {
+          return (
+            <ul>
+                <li>吃饭</li>
+                <li>睡觉</li>
+                <li>打豆豆</li>
+            </ul>
+          );
+        }
+      }
+
+      ReactDOM.render(<App/>,document.getElementById('example'))
+    </script>
+  </body>
+</html>
